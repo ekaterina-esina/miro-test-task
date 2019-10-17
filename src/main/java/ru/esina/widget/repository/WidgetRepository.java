@@ -16,5 +16,5 @@ public interface WidgetRepository {
 
     List<Widget> getAllWidget();
 
-    Double generateZCoordinate();
+    Long generateZCoordinate();
 }

@@ -5,7 +5,7 @@ import ru.esina.widget.exception.WidgetErrorEnum;
 
 @Data
 public class ErrorResponse {
-    private Integer code;
+    private int code;
     private String message;
     private String details;
 

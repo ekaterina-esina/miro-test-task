@@ -7,11 +7,14 @@ import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import ru.esina.widget.model.Widget;
@@ -28,63 +31,51 @@ public class WidgetController {
     public WidgetController(WidgetService service) {
 	this.service = service;
     }
-    //todo проверить float
 
-
-    @RequestMapping (
+    @PostMapping (
 	value = "/create",
-	method = RequestMethod.POST,
 	consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseStatus (HttpStatus.CREATED)
-    public Widget createWidget(@RequestBody @Valid AddWidgetRequest request) {
-	return service.createWidget(
+    public ResponseEntity<Widget> createWidget(@RequestBody @Valid AddWidgetRequest request) {
+	return new ResponseEntity<>(service.createWidget(
 	    request.getCoordinateX(),
 	    request.getCoordinateY(),
 	    request.getCoordinateZ(),
 	    request.getWidth(),
 	    request.getHeight()
-	);
+	), HttpStatus.CREATED);
     }
 
-    @RequestMapping (
+    @PutMapping (
 	value = "/modify",
-	method = RequestMethod.POST,
 	consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseStatus (HttpStatus.OK)
-    public Widget modifyWidget(@RequestBody @Valid EditWidgetRequest request) {
-	return service.modifyWidget(
+    public ResponseEntity<Widget> modifyWidget(@RequestBody @Valid EditWidgetRequest request) {
+	return new ResponseEntity<>(service.modifyWidget(
 	    request.getId(),
 	    request.getCoordinateX(),
 	    request.getCoordinateY(),
 	    request.getCoordinateZ(),
 	    request.getWidth(),
 	    request.getHeight()
-	);
+	), HttpStatus.OK);
     }
 
-    @RequestMapping (
-	value = "/delete/{uuid}",
-	method = RequestMethod.DELETE)
-    @ResponseStatus (HttpStatus.NO_CONTENT)
-    public void deleteWidget(@PathVariable UUID uuid) {
+    @DeleteMapping (value = "/delete/{uuid}")
+    public ResponseEntity deleteWidget(@PathVariable UUID uuid) {
 	service.deleteWidget(uuid);
+	return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping (
+    @GetMapping (
 	value = "/get/{uuid}",
-	method = RequestMethod.GET,
 	produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseStatus (HttpStatus.OK)
-    public Widget getWidget(@PathVariable UUID uuid) {
-	return service.getWidgetByUUID(uuid);
+    public ResponseEntity<Widget> getWidget(@PathVariable UUID uuid) {
+	return new ResponseEntity<>(service.getWidgetByUUID(uuid), HttpStatus.OK);
     }
 
-    @RequestMapping (
+    @GetMapping (
 	value = "/getAll",
-	method = RequestMethod.GET,
 	produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseStatus (HttpStatus.OK)
-    public List<Widget> getAllWidget() {
-	return service.getAllWidget();
+    public ResponseEntity<List<Widget>> getAllWidget() {
+	return new ResponseEntity<>(service.getAllWidget(), HttpStatus.OK);
     }
 }

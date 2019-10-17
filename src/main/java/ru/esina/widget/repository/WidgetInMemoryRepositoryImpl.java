@@ -1,4 +1,4 @@
-package ru.esina.widget.repository.impl;
+package ru.esina.widget.repository;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import ru.esina.widget.exception.WidgetErrorEnum;
 import ru.esina.widget.exception.WidgetException;
 import ru.esina.widget.model.Widget;
-import ru.esina.widget.repository.WidgetRepository;
 
 @Repository
 public class WidgetInMemoryRepositoryImpl implements WidgetRepository {
@@ -21,9 +20,9 @@ public class WidgetInMemoryRepositoryImpl implements WidgetRepository {
     @Override
     public void saveWidget(Widget widget) {
 	if (!map.computeIfAbsent(widget.getId(), k -> widget).equals(widget)) {
-	    throw new WidgetException(WidgetErrorEnum.UUID_DUPLICATE);
+	    throw new WidgetException(WidgetErrorEnum.ERROR_CREATE_WIDGET);
 	}
-	checkAndShiftZCoordinate(
+	increaseZ(
 	    map.get(widget.getId()).getCoordinateZ(),
 	    map.get(widget.getId()).getId());
     }
@@ -33,16 +32,14 @@ public class WidgetInMemoryRepositoryImpl implements WidgetRepository {
 	if (!map.replace(updatedWidget.getId(), oldWidget, updatedWidget)) {
 	    throw new WidgetException(WidgetErrorEnum.ERROR_UPDATE_WIDGET);
 	}
-	checkAndShiftZCoordinate(
+	increaseZ(
 	    map.get(updatedWidget.getId()).getCoordinateZ(),
 	    map.get(updatedWidget.getId()).getId());
     }
 
     @Override
     public void deleteWidget(UUID uuid) {
-	if (!map.entrySet().removeIf(e -> e.getValue().getId().equals(uuid))) {
-	    throw new WidgetException(WidgetErrorEnum.ERROR_DELETE_WIDGET, uuid.toString());
-	}
+	map.entrySet().removeIf(e -> e.getValue().getId().equals(uuid));
     }
 
     @Override
@@ -56,9 +53,9 @@ public class WidgetInMemoryRepositoryImpl implements WidgetRepository {
     }
 
     @Override
-    public Double generateZCoordinate() {
+    public Long generateZCoordinate() {
 	if (map.isEmpty()) {
-	    return Double.MIN_VALUE;
+	    return Long.MIN_VALUE;
 	}
 	return map
 	    .entrySet()
@@ -66,16 +63,17 @@ public class WidgetInMemoryRepositoryImpl implements WidgetRepository {
 	    .max(Comparator.comparingDouble(s -> s.getValue().getCoordinateZ()))
 	    .get()
 	    .getValue()
-	    .getCoordinateZ() + 1d;
+	    .getCoordinateZ() + 1;
 
     }
 
-    private void checkAndShiftZCoordinate(Double coordinateZ, UUID id) {
-	map.replaceAll((key, value) -> {
-	    if (value.getCoordinateZ() >= coordinateZ && key != id) {
-		return value.setCoordinateZ(value.getCoordinateZ() + 1d);
-	    }
-	    return value;
-	});
+    private void increaseZ(Long coordinateZ, UUID id) {
+	map.replaceAll(
+	    (key, value) -> {
+		if (value.getCoordinateZ() >= coordinateZ && key != id) {
+		    return value.setCoordinateZ(value.getCoordinateZ() + 1);
+		}
+		return value;
+	    });
     }
 }

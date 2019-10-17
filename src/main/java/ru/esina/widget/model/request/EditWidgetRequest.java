@@ -16,11 +16,22 @@ public class EditWidgetRequest {
 
     private Double coordinateY;
 
-    private Double coordinateZ;
+    private Long coordinateZ;
 
     @Min (1)
     private Double width;
 
     @Min (1)
     private Double height;
+
+    /*use for tests*/
+    public EditWidgetRequest(@NotNull UUID id, Double coordinateX, Double coordinateY, Long coordinateZ, @Min (1) Double width,
+	@Min (1) Double height) {
+	this.id = id;
+	this.coordinateX = coordinateX;
+	this.coordinateY = coordinateY;
+	this.coordinateZ = coordinateZ;
+	this.width = width;
+	this.height = height;
+    }
 }

@@ -39,6 +39,7 @@
     <logger name="ru.esina" level="DEBUG">
         <appender-ref ref="app"/>
     </logger>
+
     <logger name="org.springframework" level="INFO">
         <appender-ref ref="app"/>
 

@@ -13,7 +13,7 @@ public class AddWidgetRequest {
     @NotNull
     private Double coordinateY;
 
-    private Double coordinateZ;
+    private Long coordinateZ;
 
     @NotNull
     @Min (1)
@@ -22,4 +22,14 @@ public class AddWidgetRequest {
     @NotNull
     @Min (1)
     private Double height;
+
+    /*use for tests*/
+    public AddWidgetRequest(@NotNull Double coordinateX, @NotNull Double coordinateY, Long coordinateZ,
+	@NotNull @Min (1) Double width, @NotNull @Min (1) Double height) {
+	this.coordinateX = coordinateX;
+	this.coordinateY = coordinateY;
+	this.coordinateZ = coordinateZ;
+	this.width = width;
+	this.height = height;
+    }
 }

@@ -1,4 +1,4 @@
-package ru.esina.widget.service.impl;
+package ru.esina.widget.service;
 
 import java.time.ZonedDateTime;
 import java.util.Comparator;
@@ -12,7 +12,6 @@ import ru.esina.widget.exception.WidgetErrorEnum;
 import ru.esina.widget.exception.WidgetException;
 import ru.esina.widget.model.Widget;
 import ru.esina.widget.repository.WidgetRepository;
-import ru.esina.widget.service.WidgetService;
 
 @Service
 public class WidgetServiceImpl implements WidgetService {
@@ -23,7 +22,7 @@ public class WidgetServiceImpl implements WidgetService {
     }
 
     @Override
-    public Widget createWidget(Double x, Double y, Double z, Double width, Double height) {
+    public Widget createWidget(Double x, Double y, Long z, Double width, Double height) {
 	final Widget widget = new Widget()
 	    .setId(UUID.randomUUID())
 	    .setCoordinateX(x)
@@ -37,7 +36,7 @@ public class WidgetServiceImpl implements WidgetService {
     }
 
     @Override
-    public Widget modifyWidget(UUID uuid, Double x, Double y, Double z, Double width, Double height) {
+    public Widget modifyWidget(UUID uuid, Double x, Double y, Long z, Double width, Double height) {
 	final Widget oldWidget = getWidgetByUUID(uuid);
 	final Widget updatedWidget = new Widget()
 	    .setId(oldWidget.getId())
@@ -73,7 +72,7 @@ public class WidgetServiceImpl implements WidgetService {
 	}
 	return widgetList
 	    .stream()
-	    .sorted(Comparator.comparingDouble(Widget::getCoordinateZ))
+	    .sorted(Comparator.comparingLong(Widget::getCoordinateZ))
 	    .collect(Collectors.toList());
     }
 }

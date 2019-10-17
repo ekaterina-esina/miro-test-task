@@ -3,35 +3,23 @@ package ru.esina.widget.model;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 @Data
 @Accessors (chain = true)
 public class Widget {
-    @NotNull
     private UUID id;
 
-    @NotNull
-    private Double coordinateX;
+    private double coordinateX;
 
-    @NotNull
-    private Double coordinateY;
+    private double coordinateY;
 
-    @NotNull
-    private Double coordinateZ;
+    private long coordinateZ;
 
-    @NotNull
-    @Min (1)
-    private Double width;
+    private double width;
 
-    @NotNull
-    @Min (1)
-    private Double height;
+    private double height;
 
-    @NotNull
     private ZonedDateTime lastChangesDate;
 }
