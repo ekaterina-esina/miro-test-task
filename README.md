@@ -20,3 +20,17 @@ If we specify an existing Z-index, then the new widget shifts all widgets with t
 # How to start:
 Download and start. All properties is ready.
 
+# Methods:
+POST:/widget/create 
+json: EditWidgetRequest
+
+
+PUT: /widget/modify 
+json: EditWidgetRequest
+
+DELETE: /widget/delete/{id}
+
+GET: /widget/get/{id}
+
+GET: /widget/getAll
+
