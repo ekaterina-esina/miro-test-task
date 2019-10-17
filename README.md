@@ -1,5 +1,5 @@
 # miro-test-task
-Rest API. Create, view and delete widgets from memory (ConccurentHashMap).
+Rest API. Create, view and delete widgets from memory (ConcurrentHashMap).
 Widget is object with parameters: 
 - id (generated on server)
 - coordinateX
