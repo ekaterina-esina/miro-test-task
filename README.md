@@ -18,7 +18,7 @@ If we specify an existing Z-index, then the new widget shifts all widgets with t
 3. Lombok
 
 # How to start:
-Download and start. All properties is ready.
+Download and start. All properties are ready.
 
 # Methods:
 ```
