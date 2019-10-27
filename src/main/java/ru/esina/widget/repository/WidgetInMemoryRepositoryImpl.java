@@ -1,11 +1,11 @@
 package ru.esina.widget.repository;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.stereotype.Repository;
 
@@ -16,15 +16,14 @@ import ru.esina.widget.model.Widget;
 @Repository
 public class WidgetInMemoryRepositoryImpl implements WidgetRepository {
     private final Map<UUID, Widget> map = new ConcurrentHashMap<>();
+    private AtomicLong maxCoordinateZ = new AtomicLong();
 
     @Override
     public void saveWidget(Widget widget) {
 	if (!map.computeIfAbsent(widget.getId(), k -> widget).equals(widget)) {
 	    throw new WidgetException(WidgetErrorEnum.ERROR_CREATE_WIDGET);
 	}
-	increaseZ(
-	    map.get(widget.getId()).getCoordinateZ(),
-	    map.get(widget.getId()).getId());
+	increaseZ(map.get(widget.getId()).getCoordinateZ());
     }
 
     @Override
@@ -32,14 +31,12 @@ public class WidgetInMemoryRepositoryImpl implements WidgetRepository {
 	if (!map.replace(updatedWidget.getId(), oldWidget, updatedWidget)) {
 	    throw new WidgetException(WidgetErrorEnum.ERROR_UPDATE_WIDGET);
 	}
-	increaseZ(
-	    map.get(updatedWidget.getId()).getCoordinateZ(),
-	    map.get(updatedWidget.getId()).getId());
+	increaseZ(map.get(updatedWidget.getId()).getCoordinateZ());
     }
 
     @Override
     public void deleteWidget(UUID uuid) {
-	map.entrySet().removeIf(e -> e.getValue().getId().equals(uuid));
+	map.remove(uuid);
     }
 
     @Override
@@ -54,26 +51,10 @@ public class WidgetInMemoryRepositoryImpl implements WidgetRepository {
 
     @Override
     public Long generateZCoordinate() {
-	if (map.isEmpty()) {
-	    return Long.MIN_VALUE;
-	}
-	return map
-	    .entrySet()
-	    .stream()
-	    .max(Comparator.comparingDouble(s -> s.getValue().getCoordinateZ()))
-	    .get()
-	    .getValue()
-	    .getCoordinateZ() + 1;
-
+	return maxCoordinateZ.getAndIncrement();
     }
 
-    private void increaseZ(Long coordinateZ, UUID id) {
-	map.replaceAll(
-	    (key, value) -> {
-		if (value.getCoordinateZ() >= coordinateZ && key != id) {
-		    return value.setCoordinateZ(value.getCoordinateZ() + 1);
-		}
-		return value;
-	    });
+    private void increaseZ(Long coordinateZ) {
+	maxCoordinateZ.getAndUpdate(z -> coordinateZ > z ? coordinateZ : z);
     }
 }
