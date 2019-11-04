@@ -8,20 +8,20 @@ import lombok.Data;
 @Data
 public class AddWidgetRequest {
     @NotNull
-    private Double coordinateX;
+    private double coordinateX;
 
     @NotNull
-    private Double coordinateY;
+    private double coordinateY;
 
     private Long coordinateZ;
 
     @NotNull
     @Min (1)
-    private Double width;
+    private double width;
 
     @NotNull
     @Min (1)
-    private Double height;
+    private double height;
 
     /*use for tests*/
     public AddWidgetRequest(@NotNull Double coordinateX, @NotNull Double coordinateY, Long coordinateZ,

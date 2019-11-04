@@ -22,19 +22,18 @@ public class WidgetInMemoryRepositoryImpl implements WidgetRepository {
 	if (!map.computeIfAbsent(widget.getId(), k -> widget).equals(widget)) {
 	    throw new WidgetException(WidgetErrorEnum.ERROR_CREATE_WIDGET);
 	}
+	//todo решить проблему получения дублирующих значений z-index у разных виджетов. решит ли проблему synchronized?
 	increaseZ(
 	    map.get(widget.getId()).getCoordinateZ(),
-	    map.get(widget.getId()).getId());
+	    widget.getId());
     }
 
     @Override
-    public void modifyWidget(Widget oldWidget, Widget updatedWidget) {
-	if (!map.replace(updatedWidget.getId(), oldWidget, updatedWidget)) {
-	    throw new WidgetException(WidgetErrorEnum.ERROR_UPDATE_WIDGET);
-	}
+    public void modifyWidget(Widget updatedWidget) {
+	map.replace(updatedWidget.getId(), updatedWidget);
 	increaseZ(
 	    map.get(updatedWidget.getId()).getCoordinateZ(),
-	    map.get(updatedWidget.getId()).getId());
+	    updatedWidget.getId());
     }
 
     @Override

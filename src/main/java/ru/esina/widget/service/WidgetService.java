@@ -6,7 +6,7 @@ import java.util.UUID;
 import ru.esina.widget.model.Widget;
 
 public interface WidgetService {
-    Widget createWidget(Double x, Double y, Long z, Double width, Double height);
+    Widget createWidget(double x, double y, Long z, double width, double height);
 
     Widget modifyWidget(UUID uuid, Double x, Double y, Long z, Double width, Double height);
 

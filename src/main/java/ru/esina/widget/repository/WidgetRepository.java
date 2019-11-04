@@ -8,7 +8,7 @@ import ru.esina.widget.model.Widget;
 public interface WidgetRepository {
     void saveWidget(Widget widget);
 
-    void modifyWidget(Widget oldWidget, Widget updatedWidget);
+    void modifyWidget(Widget updatedWidget);
 
     void deleteWidget(UUID uuid);
 

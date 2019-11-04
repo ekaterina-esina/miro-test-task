@@ -33,7 +33,6 @@ public class WidgetController {
     }
 
     @PostMapping (
-	value = "/create",
 	consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Widget> createWidget(@RequestBody @Valid AddWidgetRequest request) {
 	return new ResponseEntity<>(service.createWidget(
@@ -46,7 +45,6 @@ public class WidgetController {
     }
 
     @PutMapping (
-	value = "/modify",
 	consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Widget> modifyWidget(@RequestBody @Valid EditWidgetRequest request) {
 	return new ResponseEntity<>(service.modifyWidget(
@@ -59,21 +57,20 @@ public class WidgetController {
 	), HttpStatus.OK);
     }
 
-    @DeleteMapping (value = "/delete/{uuid}")
+    @DeleteMapping (value = "/{uuid}")
     public ResponseEntity deleteWidget(@PathVariable UUID uuid) {
 	service.deleteWidget(uuid);
 	return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping (
-	value = "/get/{uuid}",
+	value = "/{uuid}",
 	produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Widget> getWidget(@PathVariable UUID uuid) {
 	return new ResponseEntity<>(service.getWidgetByUUID(uuid), HttpStatus.OK);
     }
 
     @GetMapping (
-	value = "/getAll",
 	produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<Widget>> getAllWidget() {
 	return new ResponseEntity<>(service.getAllWidget(), HttpStatus.OK);

@@ -22,7 +22,7 @@ public class WidgetServiceImpl implements WidgetService {
     }
 
     @Override
-    public Widget createWidget(Double x, Double y, Long z, Double width, Double height) {
+    public Widget createWidget(double x, double y, Long z, double width, double height) {
 	final Widget widget = new Widget()
 	    .setId(UUID.randomUUID())
 	    .setCoordinateX(x)
@@ -46,7 +46,7 @@ public class WidgetServiceImpl implements WidgetService {
 	    .setWidth(width == null ? oldWidget.getWidth() : width)
 	    .setHeight(height == null ? oldWidget.getHeight() : height)
 	    .setLastChangesDate(ZonedDateTime.now());
-	repository.modifyWidget(oldWidget, updatedWidget);
+	repository.modifyWidget(updatedWidget);
 	return updatedWidget;
     }
 
