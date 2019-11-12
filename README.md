@@ -22,14 +22,14 @@ Download and start. All properties are ready.
 
 # Methods:
 ```
-POST: /widget/create {json: EditWidgetRequest}
+POST: /widget {json: EditWidgetRequest}
 
-PUT: /widget/modify {json: EditWidgetRequest}
+PUT: /widget {json: EditWidgetRequest}
 
-DELETE: /widget/delete/{id}
+DELETE: /widget/{id}
 
-GET: /widget/get/{id}
+GET: /widget/{id}
 
-GET: /widget/getAll
+GET: /widget
 
 ```
