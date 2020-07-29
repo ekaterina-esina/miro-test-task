@@ -1,0 +1,9 @@
+server:
+  port: 9090
+  tomcat:
+    max-threads: 10
+
+
+logging:
+  config: ./config/logback.xml
+  path: log/
