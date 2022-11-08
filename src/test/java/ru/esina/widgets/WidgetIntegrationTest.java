@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ru.esina.widgets.controller.WidgetController;
 import ru.esina.widgets.entity.Widget;
 import ru.esina.widgets.entity.request.CreateWidgetRequest;
 import ru.esina.widgets.entity.request.ModifyWidgetRequest;
@@ -42,7 +43,7 @@ public class WidgetIntegrationTest {
         CreateWidgetRequest request = new CreateWidgetRequest(null, null, null, null, null);
         String json = objectMapper.writeValueAsString(request);
         mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/widgets")
+                .post(WidgetController.ENDPOINT_NAME)
                 .contentType(APPLICATION_JSON_UTF8)
                 .content(json))
                 .andExpect(status().isBadRequest());
@@ -53,7 +54,7 @@ public class WidgetIntegrationTest {
         CreateWidgetRequest request = new CreateWidgetRequest(1L, 1L, 1L, -10d, 10d);
         String json = objectMapper.writeValueAsString(request);
         mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/widgets")
+                .post(WidgetController.ENDPOINT_NAME)
                 .contentType(APPLICATION_JSON_UTF8)
                 .content(json))
                 .andExpect(status().isBadRequest());
@@ -64,7 +65,7 @@ public class WidgetIntegrationTest {
         CreateWidgetRequest request = new CreateWidgetRequest(1L, 1L, 1L, 10d, -10d);
         String json = objectMapper.writeValueAsString(request);
         mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/widgets")
+                .post(WidgetController.ENDPOINT_NAME)
                 .contentType(APPLICATION_JSON_UTF8)
                 .content(json))
                 .andExpect(status().isBadRequest());
@@ -75,7 +76,7 @@ public class WidgetIntegrationTest {
         CreateWidgetRequest request = new CreateWidgetRequest(1L, 1L, 1L, 1d, 1d);
         String json = objectMapper.writeValueAsString(request);
         mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/widgets")
+                .post(WidgetController.ENDPOINT_NAME)
                 .contentType(APPLICATION_JSON_UTF8)
                 .content(json))
                 .andExpect(status().isCreated())
@@ -91,7 +92,7 @@ public class WidgetIntegrationTest {
         CreateWidgetRequest request = new CreateWidgetRequest(1L, 1L, null, 1d, 1d);
         String json = objectMapper.writeValueAsString(request);
         mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/widgets")
+                .post(WidgetController.ENDPOINT_NAME)
                 .contentType(APPLICATION_JSON_UTF8)
                 .content(json))
                 .andExpect(status().isCreated())
@@ -107,7 +108,7 @@ public class WidgetIntegrationTest {
         CreateWidgetRequest request = new CreateWidgetRequest(1L, 1L, 1L, 1d, 1d);
         String json = objectMapper.writeValueAsString(request);
         mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/widgets")
+                .post(WidgetController.ENDPOINT_NAME)
                 .contentType(APPLICATION_JSON_UTF8)
                 .content(json))
                 .andExpect(status().isCreated())
@@ -118,7 +119,7 @@ public class WidgetIntegrationTest {
                 .andExpect(jsonPath("$.height").value(1d));
 
         mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/widgets")
+                .post(WidgetController.ENDPOINT_NAME)
                 .contentType(APPLICATION_JSON_UTF8)
                 .content(json))
                 .andExpect(status().isCreated())
@@ -129,7 +130,7 @@ public class WidgetIntegrationTest {
                 .andExpect(jsonPath("$.height").value(1d));
 
         mockMvc.perform(MockMvcRequestBuilders
-                .get("/api/widgets"))
+                .get(WidgetController.ENDPOINT_NAME))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].coordinateZ").value(1L))
                 .andExpect(jsonPath("$[1].coordinateZ").value(2L));
@@ -142,7 +143,7 @@ public class WidgetIntegrationTest {
 
         String json1 = objectMapper.writeValueAsString(request1);
         mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/widgets")
+                .post(WidgetController.ENDPOINT_NAME)
                 .contentType(APPLICATION_JSON_UTF8)
                 .content(json1))
                 .andExpect(status().isCreated())
@@ -154,7 +155,7 @@ public class WidgetIntegrationTest {
 
         String json2 = objectMapper.writeValueAsString(request2);
         mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/widgets")
+                .post(WidgetController.ENDPOINT_NAME)
                 .contentType(APPLICATION_JSON_UTF8)
                 .content(json2))
                 .andExpect(status().isCreated())
@@ -165,7 +166,7 @@ public class WidgetIntegrationTest {
                 .andExpect(jsonPath("$.height").value(1d));
 
         mockMvc.perform(MockMvcRequestBuilders
-                .get("/api/widgets"))
+                .get(WidgetController.ENDPOINT_NAME))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].coordinateZ").value(1L))
                 .andExpect(jsonPath("$[1].coordinateZ").value(2L));
@@ -176,7 +177,7 @@ public class WidgetIntegrationTest {
         ModifyWidgetRequest request = new ModifyWidgetRequest(UUID.randomUUID(), 1L, 1L, 1L, 10d, -10d);
         String json = objectMapper.writeValueAsString(request);
         mockMvc.perform(MockMvcRequestBuilders
-                .put("/api/widgets")
+                .put(WidgetController.ENDPOINT_NAME)
                 .contentType(APPLICATION_JSON_UTF8)
                 .content(json))
                 .andExpect(status().isBadRequest());
@@ -187,7 +188,7 @@ public class WidgetIntegrationTest {
         ModifyWidgetRequest request = new ModifyWidgetRequest(UUID.randomUUID(), 1L, 1L, 1L, 10d, -10d);
         String json = objectMapper.writeValueAsString(request);
         mockMvc.perform(MockMvcRequestBuilders
-                .put("/api/widgets")
+                .put(WidgetController.ENDPOINT_NAME)
                 .contentType(APPLICATION_JSON_UTF8)
                 .content(json))
                 .andExpect(status().isBadRequest());
@@ -198,7 +199,7 @@ public class WidgetIntegrationTest {
         CreateWidgetRequest request = new CreateWidgetRequest(1L, 1L, 1L, 1d, 1d);
         String json = objectMapper.writeValueAsString(request);
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/widgets")
+                .post(WidgetController.ENDPOINT_NAME)
                 .contentType(APPLICATION_JSON_UTF8)
                 .content(json))
                 .andExpect(status().isCreated())
@@ -215,7 +216,7 @@ public class WidgetIntegrationTest {
         ModifyWidgetRequest modifyRequest = new ModifyWidgetRequest(id, 2L, 2L, 2L, 2d, 2d);
         String modifyJson = objectMapper.writeValueAsString(modifyRequest);
         mockMvc.perform(MockMvcRequestBuilders
-                .put("/api/widgets")
+                .put(WidgetController.ENDPOINT_NAME)
                 .contentType(APPLICATION_JSON_UTF8)
                 .content(modifyJson))
                 .andExpect(status().isOk())
@@ -231,7 +232,7 @@ public class WidgetIntegrationTest {
         ModifyWidgetRequest modifyRequest = new ModifyWidgetRequest(UUID.randomUUID(), 2L, 2L, 2L, 2d, 2d);
         String modifyJson = objectMapper.writeValueAsString(modifyRequest);
         mockMvc.perform(MockMvcRequestBuilders
-                .put("/api/widgets")
+                .put(WidgetController.ENDPOINT_NAME)
                 .contentType(APPLICATION_JSON_UTF8)
                 .content(modifyJson))
                 .andExpect(status().is5xxServerError())
@@ -244,7 +245,7 @@ public class WidgetIntegrationTest {
         CreateWidgetRequest request = new CreateWidgetRequest(1L, 1L, 1L, 1d, 1d);
         String json = objectMapper.writeValueAsString(request);
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/widgets")
+                .post(WidgetController.ENDPOINT_NAME)
                 .contentType(APPLICATION_JSON_UTF8)
                 .content(json))
                 .andExpect(status().isCreated())
@@ -259,7 +260,7 @@ public class WidgetIntegrationTest {
         String id = String.valueOf(widget.getId());
 
         mockMvc.perform(MockMvcRequestBuilders
-                .delete("/api/widgets/" + id))
+                .delete(WidgetController.ENDPOINT_NAME + "/"  + id))
                 .andExpect(status().isNoContent());
     }
 
@@ -268,7 +269,7 @@ public class WidgetIntegrationTest {
         CreateWidgetRequest request = new CreateWidgetRequest(1L, 1L, 1L, 1d, 1d);
         String json = objectMapper.writeValueAsString(request);
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/widgets")
+                .post(WidgetController.ENDPOINT_NAME)
                 .contentType(APPLICATION_JSON_UTF8)
                 .content(json))
                 .andExpect(status().isCreated())
@@ -283,7 +284,7 @@ public class WidgetIntegrationTest {
         String id = String.valueOf(widget.getId());
 
         mockMvc.perform(MockMvcRequestBuilders
-                .get("/api/widgets/" + id))
+                .get(WidgetController.ENDPOINT_NAME + "/"  + id))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.coordinateX").value(1L))
                 .andExpect(jsonPath("$.coordinateY").value(1L))
@@ -295,7 +296,7 @@ public class WidgetIntegrationTest {
     @Test
     public void testGetWidgetWhichNotExist() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                .get("/api/widgets/" + UUID.randomUUID()))
+                .get(WidgetController.ENDPOINT_NAME + "/"  + UUID.randomUUID()))
                 .andExpect(status().is5xxServerError())
                 .andExpect(jsonPath("$.code").value(401))
                 .andExpect(jsonPath("$.message").value("Widget does not exist"));
@@ -304,7 +305,7 @@ public class WidgetIntegrationTest {
     @Test
     public void testGetAllWidgetsEmptyList() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                .get("/api/widgets"))
+                .get(WidgetController.ENDPOINT_NAME))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").value(Matchers.empty()));
     }
@@ -315,7 +316,7 @@ public class WidgetIntegrationTest {
         CreateWidgetRequest request2 = new CreateWidgetRequest(1L, 1L, 2L, 1d, 1d);
         String json1 = objectMapper.writeValueAsString(request1);
         mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/widgets")
+                .post(WidgetController.ENDPOINT_NAME)
                 .contentType(APPLICATION_JSON_UTF8)
                 .content(json1))
                 .andExpect(status().isCreated())
@@ -327,7 +328,7 @@ public class WidgetIntegrationTest {
                 .andReturn();
         String json2 = objectMapper.writeValueAsString(request2);
         mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/widgets")
+                .post(WidgetController.ENDPOINT_NAME)
                 .contentType(APPLICATION_JSON_UTF8)
                 .content(json2))
                 .andExpect(status().isCreated())
@@ -339,7 +340,7 @@ public class WidgetIntegrationTest {
                 .andReturn();
 
         mockMvc.perform(MockMvcRequestBuilders
-                .get("/api/widgets"))
+                .get(WidgetController.ENDPOINT_NAME))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0].coordinateX").value(1L))
                 .andExpect(jsonPath("$.[0].coordinateY").value(1L))

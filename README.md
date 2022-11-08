@@ -31,6 +31,8 @@ All errors in the program are logged and also written to the file: log/error.log
 3. Maven 3
 
 # How to start
+You should install JDK 11 and Maven
+
 Run in directory
 ```
 mvn clean install
@@ -38,16 +40,93 @@ mvn spring-boot:run
 ```
 
 # API
-http://localhost:9090/api
-```
-POST: /widgets {json: CreateWidgetRequest}
+path: http://localhost:9090/api/v1
 
-PUT: /widgets {json: ModifyWidgetRequest}
+#### Methods
 
-DELETE: /widgets/{id}
+- Create new widget 
+  ```
+  POST: /widgets {json: CreateWidgetRequest}
+  
+  Response:
+   - HttpStatus.CREATED
+   - json: Widget
+  
+  ```
+- Modify widget
+  ```
+  PUT: /widgets {json: ModifyWidgetRequest}
+  
+  Response:
+   - HttpStatus.OK
+   - json: Widget
+  ```
+- Delete widget by id
+  ```
+  DELETE: /widgets/{id}
+  
+  Response:
+   - HttpStatus.NO_CONTENT
+  ```
+- Get widget by id
+  ```
+  GET: /widgets/{id}
 
-GET: /widgets/{id}
+  Response:
+   - HttpStatus.OK
+   - json: Widget
+  ```
+- Get all widgets sorted by z-index, from smallest to largest
+  ```
+  GET: /widgets
+  
+  Response:
+   - HttpStatus.OK
+   - json: List<Widget>
+  ```
 
-GET: /widgets
+#### Request entity
+- Widget
+  ```
+  id               - UUID,    not null
+  coordinateX      - Long,    not null
+  coordinateY      - Long,    not null
+  coordinateZ      - Long,    not null
+  width            - Double,  >0
+  height           - Double,  >0
+  lastChangesDate  - ZonedDateTime
+  ```
 
-```
+- CreateWidgetRequest
+  ```
+  coordinateX      - Long,    not null
+  coordinateY      - Long,    not null
+  coordinateZ      - Long,    not null
+  width            - Double,  >0
+  height           - Double,  >0
+  ```
+  
+- ModifyWidgetRequest
+  ```
+  id               - UUID,    not null
+  coordinateX      - Long,    not null
+  coordinateY      - Long,    not null
+  coordinateZ      - Long,    not null
+  width            - Double,  >0
+  height           - Double,  >0
+  ```
+
+#### Error codes
+
+- Invalid request
+  ```
+  INVALID_REQUEST(400, "Invalid request")
+  ```
+  ```
+  WIDGET_NOT_FOUND(401, "Widget does not exist")
+  ```
+- In case of error in locking by ReentrantLock
+  ```
+  UNEXPECTED_ERROR(999, "Unexpected error")
+
+  ```

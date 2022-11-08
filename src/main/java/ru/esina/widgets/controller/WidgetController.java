@@ -25,7 +25,7 @@ import ru.esina.widgets.service.WidgetService;
 @RestController
 @RequestMapping(value = WidgetController.ENDPOINT_NAME)
 public class WidgetController {
-    public static final String ENDPOINT_NAME = "/api/widgets";
+    public static final String ENDPOINT_NAME = "/api/v1/widgets";
     private final WidgetService service;
 
     public WidgetController(WidgetService service) {
