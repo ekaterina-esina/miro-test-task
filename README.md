@@ -45,6 +45,7 @@ path: http://localhost:9090/api/v1
 #### Methods
 
 - Create new widget 
+
   ```
   POST: /widgets {json: CreateWidgetRequest}
   
@@ -53,6 +54,7 @@ path: http://localhost:9090/api/v1
    - json: Widget
   
   ```
+  
 - Modify widget
   ```
   PUT: /widgets {json: ModifyWidgetRequest}
@@ -61,6 +63,7 @@ path: http://localhost:9090/api/v1
    - HttpStatus.OK
    - json: Widget
   ```
+  
 - Delete widget by id
   ```
   DELETE: /widgets/{id}
@@ -68,6 +71,7 @@ path: http://localhost:9090/api/v1
   Response:
    - HttpStatus.NO_CONTENT
   ```
+  
 - Get widget by id
   ```
   GET: /widgets/{id}
@@ -76,6 +80,7 @@ path: http://localhost:9090/api/v1
    - HttpStatus.OK
    - json: Widget
   ```
+  
 - Get all widgets sorted by z-index, from smallest to largest
   ```
   GET: /widgets
@@ -125,6 +130,7 @@ path: http://localhost:9090/api/v1
   ```
   WIDGET_NOT_FOUND(401, "Widget does not exist")
   ```
+  
 - In case of error in locking by ReentrantLock
   ```
   UNEXPECTED_ERROR(999, "Unexpected error")
