@@ -17,19 +17,27 @@ Operations to be provided by the web service:
 - Deleting a widget. We can delete the widget by its identifier.
 - Getting a list of widgets. In the response we get a list of all widgets sorted by z-index, from smallest to largest.
 
-# I use:
+# Solution
+Saving widgets is implemented in memory using HashSet - because in conditions of frequent addition, deletion or modification of widgets, the complexity of O(1) remains.
+
+To solve in order to make widget changes atomic, ReentrantLock is used. When requesting a widget change, if changes are already being made by another thread, then the resource is blocked and waiting for availability. As soon as the first thread has finished the changes, the lock is released.
+
+All errors in the program are logged and also written to the file: log/error.log. %d{yyyy-MM-dd}.%i.gz. The maximum file size is 15MB
+
+
+# Technology
 1. Java 11
 2. Spring-boot-starter 2.1.9
 3. Maven 3
 
-# How to start:
+# How to start
 Run in directory
 ```
 mvn clean install
 mvn spring-boot:run
 ```
 
-# Methods:
+# API
 http://localhost:9090/api
 ```
 POST: /widgets {json: CreateWidgetRequest}
